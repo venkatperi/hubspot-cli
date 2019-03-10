@@ -1,0 +1,7 @@
+{
+    "port": 4041,
+    "env": "developmnt",
+    "oauth2": {
+        "provider": "hubspot"
+    }
+}

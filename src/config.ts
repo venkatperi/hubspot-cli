@@ -5,53 +5,59 @@ dotenv.load()
 
 export const config = convict({
     env: {
-        format: 'string',
-        default: 'development',
-        env: 'NODE_ENV'
+        format: String,
+        default: 'development'
     },
     host: {
-        format: 'ipaddress',
-        default: '127.0.0.1',
-        env: 'HOST_ADDRESS'
+        format: 'String',
+        default: 'localhost'
     },
     port: {
         format: 'port',
-        default: '4041',
-        env: 'HOST_PORT'
+        default: '4041'
     },
-    hubspot: {
-        oauth: {
-            apiKey: {
-                format: 'string',
-                env: 'HUBSPOT_API_KEY'
+    oauth2: {
+        provider: {
+            format: 'String',
+            default: undefined,
+        },
+        apiKey: {
+            format: 'String',
+            default: undefined,
+        },
+        clientId: {
+            format: 'String',
+            default: undefined,
+        },
+        clientSecret: {
+            format: 'String',
+            default: undefined,
+        },
+        scopes: {
+            format: 'Array',
+            default: [''],
+        },
+        urls: {
+            auth: {
+                format: 'String',
+                default: undefined
             },
-            clientId: {
-                format: 'string',
-                env: 'HUBSPOT_CLIENT_ID'
+            token: {
+                format: 'String',
+                default: undefined,
             },
-            clientSecret: {
-                format: 'string',
-                env: 'HUBSPOT_CLIENT_SECRET'
+            refresh: {
+                format: 'String',
+                default: undefined,
             },
-            scopes: {
-                format: 'string',
-                env: 'HUBSPOT_SCOPES'
-            },
-            urls: {
-                auth: {
-                    format: 'string',
-                    env: 'HUBSPOT_OAUTH2_AUTH_URL'
-                },
-                token: {
-                    format: 'string',
-                    env: 'HUBSPOT_OAUTH2_TOKEN_URL'
-                },
-                refresh: {
-                    format: 'string',
-                    env: 'HUBSPOT_OAUTH2_TOKEN_URL'
-                },
-            },
-        }
+        },
     },
 })
+
+config.loadFile('./config.json');
+let provider = config.get('oauth2.provider')
+config.loadFile(`./config.${provider}.json`);
+
+config.validate()
+
 
