@@ -9,4 +9,4 @@ coverage/
 *.lock
 tmp/
 gen/
-hubspot.json
+*.hubspot.json
