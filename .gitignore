@@ -9,4 +9,8 @@ coverage/
 *.lock
 tmp/
 gen/
+<<<<<<< HEAD
 *.hubspot.json
+=======
+hubspot.json
+>>>>>>> 3d0da1cf1225214135281891ec7446020754211b

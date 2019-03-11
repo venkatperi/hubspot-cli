@@ -2,6 +2,6 @@ import * as yargs from 'yargs'
 
 yargs
     .commandDir('commands')
-    .demandCommand()
+    .demand(1)
     .help()
     .argv
