@@ -37,6 +37,10 @@ export const config = convict({
             format: 'Array',
             default: [''],
         },
+        bearerToken: {
+            format: 'String',
+            default: undefined,
+        },
         urls: {
             auth: {
                 format: 'String',
@@ -54,9 +58,9 @@ export const config = convict({
     },
 })
 
-config.loadFile('./config.json');
+config.loadFile('./config.json')
 let provider = config.get('oauth2.provider')
-config.loadFile(`./config.${provider}.json`);
+config.loadFile(`./config.${provider}.json`)
 
 config.validate()
 

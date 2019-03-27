@@ -1,8 +1,9 @@
 const HubSpotClient = require("hubspot-api")
-import { config } from "../config"
+import * as _ from 'lodash'
+import { config } from "../../config"
 
 
-exports.command = "addContact"
+exports.command = "add <email> <firstname> <lastname>"
 exports.builder = {
     email: {
         alias: 'e',
@@ -54,12 +55,11 @@ exports.handler = (argv: any) => {
         {hapikey: config.get('oauth2.apiKey')})
 
     hs.contacts
-      .createOrUpdateContact({
-          email: argv.email,
-          firstname: argv.firstname,
-          lastname: argv.lastname
-      })
-      .then( (msg: any) => {
-          console.log(msg.msg)
-      })
+      .createOrUpdateContact(
+          _.pick(argv, ['email', 'firstname', 'lastname', 'website', 'company',
+              'phone', 'address', 'city', 'state', 'zip'])
+      )
+      .then((msg: any) => {
+          // console.log(msg.msg)
+      }).catch((e: Error) => console.log(e.message))
 }

@@ -1,8 +1,8 @@
-import * as ClientOAuth2 from "client-oauth2";
-import { config } from "../config";
+import * as ClientOAuth2 from "client-oauth2"
 import { Express } from 'express'
+import { config } from "../config"
 
-export default ({ name, app, baseUrl }: {
+export default ({name, app, baseUrl}: {
     name: String,
     app: Express,
     baseUrl: String
@@ -13,8 +13,6 @@ export default ({ name, app, baseUrl }: {
     let authUrl = `${baseUrl}/${name}`
     let callbackUrl = `${authUrl}/callback`
     let redirectUri = `http://${host}:${port}${callbackUrl}`
-    console.log(`callbackUrl: ${callbackUrl}`)
-    console.log(`redirectUri: ${redirectUri}`)
 
     let opts: ClientOAuth2.Options = {
         clientId: cfg.clientId,
@@ -38,13 +36,13 @@ export default ({ name, app, baseUrl }: {
     app.get(callbackUrl, (req, res) => {
         console.log(req.originalUrl)
         auth.code.getToken(req.originalUrl, {
-            body: {
-                "grant_type": "authorization_code",
-                "client_id": cfg.clientId || '',
-                "client_secret": cfg.clientSecret || '',
-            }
-        })
-            .then(resolve)
+                body: {
+                    "grant_type": "authorization_code",
+                    "client_id": cfg.clientId || '',
+                    "client_secret": cfg.clientSecret || '',
+                }
+            })
+            .then(user => resolve(user.accessToken))
             .catch(reject)
     })
 
