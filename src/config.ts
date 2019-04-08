@@ -1,6 +1,9 @@
 import * as convict from 'convict'
 import * as dotenv from 'dotenv'
 
+const path = require('path')
+const fs = require('fs')
+
 dotenv.load()
 
 export const config = convict({
@@ -58,9 +61,16 @@ export const config = convict({
     },
 })
 
-config.loadFile('./config.json')
+let base = "."
+if (!fs.existsSync(path.join(base, 'config.json'))) {
+    base = '..'
+}
+
+config.loadFile(path.join(base, 'config.json'))
+
 let provider = config.get('oauth2.provider')
-config.loadFile(`./config.${provider}.json`)
+config.loadFile(path.join(base, `config.${provider}.json`))
+
 
 config.validate()
 

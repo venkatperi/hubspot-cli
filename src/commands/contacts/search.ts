@@ -2,6 +2,7 @@ import axios from 'axios'
 import { config } from "../../config"
 
 
+
 exports.command = "search <query>"
 exports.builder = {
     email: {
@@ -50,17 +51,18 @@ exports.handler = (argv: any) => {
     let url = `https://api.hubapi.com/contacts/v1/search/query?q=${argv.query}&hapikey=${key}`
 
     axios.get(url)
-      .then((res: any) => {
-          // console.log(res.data.contacts)
-          console.log(res.data.contacts.map((c: any) => {
-              let str = []
-              for (let p of props) {
-                  if (c.properties[p])
-                      str.push(c.properties[p].value)
-                  else
-                      str.push("...")
-              }
-              return str.join(", ")
-          }).join('\n'))
-      })
+         .then((res: any) => {
+             // console.log(res.data.contacts)
+             console.log(res.data.contacts.map((c: any) => {
+                 let str = []
+                 for (let p of props) {
+                     if (c.properties[p]) {
+                         str.push(c.properties[p].value)
+                     } else {
+                         str.push("...")
+                     }
+                 }
+                 return str.join(", ")
+             }).join('\n'))
+         })
 }
